@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
-import Card from "./Card";
+import Card from "../common/Card";
 import { Text } from "../Themed";
-import IconContainer, { iconStyle } from "./IconContainer";
+import IconContainer, { iconStyle } from "../common/IconContainer";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/constants/Colors";
 
@@ -10,27 +10,33 @@ interface AccountCard {
   iconComponent: ReactNode;
   title: string;
   amount: string;
+  linkPath: string,
+  linkParams: any,
 }
+type AccountCardListData = AccountCard[];
 
 const AccountCardList = () => {
   return (
     <View>
       <FlatList
-        style={{ columnGap: 150 }}
         data={[
           {
             iconComponent: (
-              <Ionicons name="bag" size={24} color={colors.text} />
+              <Ionicons name="bag" size={24} color={colors.accent} />
             ),
             title: "Account",
             amount: "₹ 3555",
+            linkPath: "/modal",
+            linkParams: { id: 1 },
           },
           {
             iconComponent: (
-              <Ionicons name="bag" size={24} color={colors.text} />
+              <Ionicons name="bag" size={24} color={colors.accent} />
             ),
             title: "Account",
             amount: "₹ 3555",
+            linkPath: "/modal",
+            linkParams: { id: 2 },
           },
         ]}
         renderItem={({ item }) => <AccountCardItem {...item} />}
@@ -39,9 +45,9 @@ const AccountCardList = () => {
   );
 };
 
-const AccountCardItem = ({ iconComponent, title, amount }: AccountCard) => {
+const AccountCardItem = ({ iconComponent, title, amount, linkPath, linkParams }: AccountCard) => {
   return (
-    <Card styles={styles.card}>
+    <Card styles={styles.card} linkPath={linkPath} linkParams={linkParams}>
       <IconContainer iconComponent={iconComponent} />
       <View style={styles.textsContainer}>
         <Text>{title}</Text>
@@ -56,6 +62,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
+    marginVertical: 5,
   },
   textsContainer: {
     flexDirection: "column",
